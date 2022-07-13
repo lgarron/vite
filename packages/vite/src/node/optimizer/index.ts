@@ -24,7 +24,7 @@ import {
   writeFile
 } from '../utils'
 import { transformWithEsbuild } from '../plugins/esbuild'
-import { ESBUILD_MODULES_TARGET } from '../constants'
+import { ESBUILD_MODULES_SUPPORTED_OVERRIDES, ESBUILD_MODULES_TARGET } from '../constants'
 import { esbuildCjsExternalPlugin, esbuildDepPlugin } from './esbuildDepPlugin'
 import { scanImports } from './scan'
 export {
@@ -600,6 +600,7 @@ export async function runOptimizeDeps(
           }
         : undefined,
     target: isBuild ? config.build.target || undefined : ESBUILD_MODULES_TARGET,
+    supported: isBuild ? undefined : ESBUILD_MODULES_SUPPORTED_OVERRIDES,
     external,
     logLevel: 'error',
     splitting: true,
@@ -1041,6 +1042,7 @@ export function getDepHash(config: ResolvedConfig, ssr: boolean): string {
       root: config.root,
       resolve: config.resolve,
       buildTarget: config.build.target,
+      buildSupported: config.build.supported,
       assetsInclude: config.assetsInclude,
       plugins: config.plugins.map((p) => p.name),
       optimizeDeps: {

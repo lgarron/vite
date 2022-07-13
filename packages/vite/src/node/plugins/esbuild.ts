@@ -288,6 +288,7 @@ export function resolveEsbuildTranspileOptions(
   format: InternalModuleFormat
 ): TransformOptions | null {
   const target = config.build.target
+  const supported = config.build.supported
   const minify = config.build.minify === 'esbuild'
 
   if ((!target || target === 'esnext') && !minify) {
@@ -301,6 +302,7 @@ export function resolveEsbuildTranspileOptions(
   const options: TransformOptions = {
     ...config.esbuild,
     target: target || undefined,
+    supported: supported || undefined,
     format: rollupToEsbuildFormatMap[format]
   }
 

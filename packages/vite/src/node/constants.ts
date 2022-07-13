@@ -18,8 +18,13 @@ export const ESBUILD_MODULES_TARGET = [
   'edge88',
   'firefox78',
   'chrome87',
-  'safari13' // transpile nullish coalescing
+  'safari13.1'
 ]
+
+export const ESBUILD_MODULES_SUPPORTED_OVERRIDES = {
+  "nullish-coalescing": false,
+  "bigint": true
+}
 
 export const DEFAULT_EXTENSIONS = [
   '.mjs',
