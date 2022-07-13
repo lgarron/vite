@@ -47,7 +47,7 @@ import { loadFallbackPlugin } from './plugins/loadFallback'
 import type { PackageData } from './packages'
 import { watchPackageDataPlugin } from './packages'
 import { ensureWatchPlugin } from './plugins/ensureWatch'
-import { ESBUILD_MODULES_TARGET, VERSION } from './constants'
+import { ESBUILD_MODULES_SUPPORTED_OVERRIDES, ESBUILD_MODULES_TARGET, VERSION } from './constants'
 
 export interface BuildOptions {
   /**
@@ -67,6 +67,9 @@ export interface BuildOptions {
    * https://esbuild.github.io/content-types/#javascript for more details.
    */
   target?: 'modules' | TransformOptions['target'] | false
+  supported?: {
+    "nullish-coalescing": boolean
+  },
   /**
    * whether to inject module preload polyfill.
    * Note: does not apply to library mode.
@@ -271,6 +274,7 @@ export function resolveBuildOptions(
   // handle special build targets
   if (resolved.target === 'modules') {
     resolved.target = ESBUILD_MODULES_TARGET
+    resolved.supported = ESBUILD_MODULES_SUPPORTED_OVERRIDES
   } else if (resolved.target === 'esnext' && resolved.minify === 'terser') {
     // esnext + terser: limit to es2021 so it can be minified by terser
     resolved.target = 'es2021'
